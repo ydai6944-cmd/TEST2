@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MONSTRA Watch — 睿騰有限公司</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+TC:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --accent: #ff3c5a;
+    --accent2: #00e5c8;
+    --accent3: #ffd600;
+    --text: #f0eff5;
+    --muted: #888aaa;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+  .logo span { color: var(--text); }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.08em; margin-left: 2rem; transition: color 0.2s; }
+  nav a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 30% 60%, rgba(255,60,90,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(0,229,200,0.10) 0%, transparent 70%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent2);
+    border: 0.5px solid var(--accent2);
+    padding: 0.4rem 1rem; border-radius: 2px;
+    margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+  .hero h1 .line1 { display: block; color: var(--text); }
+  .hero h1 .line2 { display: block; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--muted);
+    max-width: 560px; margin: 1.5rem auto 3rem;
+    font-weight: 300;
+  }
+  .watch-visual {
+    width: 200px; height: 200px;
+    margin: 0 auto 2.5rem;
+    position: relative;
+  }
+  .watch-ring {
+    width: 100%; height: 100%;
+    border-radius: 36px;
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%,100% { box-shadow: 0 0 0 0 rgba(255,60,90,0.0), 0 0 0 8px rgba(0,229,200,0.06); }
+    50% { box-shadow: 0 0 0 16px rgba(255,60,90,0.08), 0 0 0 32px rgba(0,229,200,0.04); }
+  }
+  .watch-face {
+    width: 82%; height: 82%;
+    border-radius: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+  }
+  .monster-icon { font-size: 3.2rem; animation: float 4s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .hp-bar {
+    width: 70%; height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px; overflow: hidden;
+  }
+  .hp-fill {
+    height: 100%; width: 78%;
+    background: var(--accent2);
+    border-radius: 2px;
+  }
+  .watch-label {
+    font-size: 0.55rem; letter-spacing: 0.15em;
+    color: var(--accent2); text-transform: uppercase;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 1rem 2.5rem; border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+    font-weight: 700;
+    margin-right: 1rem;
+  }
+  .hero-cta:hover { transform: translateY(-2px); opacity: 0.9; }
+  .hero-cta2 {
+    display: inline-block;
+    border: 0.5px solid var(--muted);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 1rem 2rem; border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .hero-cta2:hover { color: var(--text); border-color: var(--text); }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 6rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-tag {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.06em; line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .desc { font-size: 1rem; color: var(--muted); max-width: 600px; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 0.5px; background: var(--border); margin: 0 3rem; }
+
+  /* ── FEATURES GRID ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5px;
+    margin-top: 4rem;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .feat-card {
+    background: var(--card);
+    padding: 2.5rem 2rem;
+    transition: background 0.25s;
+  }
+  .feat-card:hover { background: #202033; }
+  .feat-icon {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.2rem;
+  }
+  .feat-icon.red { background: rgba(255,60,90,0.12); color: var(--accent); }
+  .feat-icon.teal { background: rgba(0,229,200,0.1); color: var(--accent2); }
+  .feat-icon.yellow { background: rgba(255,214,0,0.1); color: var(--accent3); }
+  .feat-card h3 {
+    font-size: 1.05rem; font-weight: 700;
+    margin-bottom: 0.6rem; letter-spacing: 0.03em;
+  }
+  .feat-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── RULES ── */
+  .rules-section { background: var(--surface); }
+  .rules-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 3.5rem;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .rules-layout { grid-template-columns: 1fr; gap: 2rem; }
+    nav .nav-links { display: none; }
+  }
+
+  .week-timeline {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .day-row {
+    display: flex; align-items: center; gap: 1.2rem;
+    padding: 1rem 1.2rem;
+    border-left: 2px solid var(--border);
+    position: relative;
+    transition: background 0.2s;
+  }
+  .day-row:hover { background: rgba(255,255,255,0.02); }
+  .day-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    position: absolute; left: -6px;
+  }
+  .day-dot.green { background: var(--accent2); }
+  .day-dot.red { background: var(--accent); }
+  .day-dot.yellow { background: var(--accent3); }
+  .day-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.1em;
+    color: var(--muted); min-width: 52px;
+  }
+  .day-desc { font-size: 0.85rem; color: var(--muted); }
+  .day-desc strong { color: var(--text); font-weight: 700; }
+  .day-badge {
+    margin-left: auto; flex-shrink: 0;
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.25rem 0.7rem; border-radius: 2px;
+    font-weight: 700;
+  }
+  .badge-write { background: rgba(0,229,200,0.12); color: var(--accent2); }
+  .badge-cal { background: rgba(255,214,0,0.12); color: var(--accent3); }
+  .badge-battle { background: rgba(255,60,90,0.15); color: var(--accent); }
+  .badge-warn { background: rgba(255,60,90,0.08); color: #ff7a8e; }
+
+  .rules-cards { display: flex; flex-direction: column; gap: 1.2rem; }
+  .rule-item {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+  .rule-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; line-height: 1;
+    color: var(--accent); flex-shrink: 0;
+    width: 36px;
+  }
+  .rule-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
+  .rule-item p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── WARNING BANNER ── */
+  .warning-strip {
+    background: #1a0c0f;
+    border-top: 1px solid rgba(255,60,90,0.2);
+    border-bottom: 1px solid rgba(255,60,90,0.2);
+    padding: 2rem;
+    text-align: center;
+  }
+  .warning-strip p {
+    font-size: 0.85rem; color: rgba(255,120,130,0.85);
+    letter-spacing: 0.04em;
+  }
+  .warning-strip strong { color: var(--accent); }
+
+  /* ── SPECS ── */
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    margin-top: 3.5rem;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+  }
+  .spec-item {
+    background: var(--card);
+    padding: 2rem 1.6rem;
+  }
+  .spec-label { font-size: 0.7rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .spec-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.06em; }
+  .spec-unit { font-size: 0.8rem; color: var(--muted); margin-left: 4px; font-family: 'Noto Sans TC', sans-serif; font-weight: 300; }
+
+  /* ── COMPANY / FOOTER ── */
+  .company-section {
+    background: var(--surface);
+    border-top: 0.5px solid var(--border);
+  }
+  .company-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  @media (max-width: 768px) { .company-layout { grid-template-columns: 1fr; gap: 2rem; } }
+  .company-info h2 { margin-bottom: 1rem; }
+  .contact-row {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 1rem 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .contact-icon { color: var(--accent2); font-size: 1rem; }
+  .contact-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 0.1rem; }
+  .contact-val { font-size: 0.95rem; font-weight: 400; }
+
+  .company-graphic {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .co-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .co-tagline { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+  .co-divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+  .co-stat-row { display: flex; justify-content: space-around; gap: 1rem; }
+  .co-stat strong {
+    display: block; font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; color: var(--accent2);
+  }
+  .co-stat span { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  footer {
+    text-align: center; padding: 2.5rem 2rem;
+    font-size: 0.78rem; color: var(--muted);
+    border-top: 0.5px solid var(--border);
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">MONSTRA<span> Watch</span></div>
+  <div class="nav-links">
+    <a href="#features">功能</a>
+    <a href="#rules">規則</a>
+    <a href="#specs">規格</a>
+    <a href="#company">聯絡我們</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">RUITENG × 智能穿戴</div>
+
+    <div class="watch-visual reveal">
+      <div class="watch-ring">
+        <div class="watch-face">
+          <div class="monster-icon">👾</div>
+          <div class="hp-bar"><div class="hp-fill"></div></div>
+          <div class="watch-label">HP 78%</div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="reveal">
+      <span class="line1">MONSTRA</span>
+      <span class="line2">WATCH</span>
+    </h1>
+    <p class="hero-sub reveal">
+      用你的生活數據養出最強怪獸。<br>寫日記強化屬性，記錄卡路里壯大體魄，每個禮拜日決一勝負。
+    </p>
+    <div class="reveal">
+      <a href="#rules" class="hero-cta">了解規則</a>
+      <a href="#company" class="hero-cta2">立即詢問</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-inner">
+    <p class="section-tag reveal">核心功能</p>
+    <h2 class="reveal">你的生活，<br>是怪獸的力量。</h2>
+    <p class="desc reveal">MONSTRA Watch 將日常行為轉化成戰鬥數值。記錄越多，你的怪獸越強。</p>
+
+    <div class="features-grid reveal">
+      <div class="feat-card">
+        <div class="feat-icon teal">📖</div>
+        <h3>日記 → 屬性強化</h3>
+        <p>每天撰寫日記，自動分析文字情緒與強度，轉換為怪獸的攻擊、防禦、速度等屬性加成。堅持越久，屬性越高。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon yellow">🔥</div>
+        <h3>卡路里 → 體能狀態</h3>
+        <p>每日記錄飲食卡路里，維持適當攝取量讓怪獸保持最佳體能。暴飲暴食或飢餓都會影響戰鬥力。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon red">⚔️</div>
+        <h3>禮拜日決戰</h3>
+        <p>每週日自動結算，以本週累積數值對戰對手怪獸。贏家可帶入下週繼續使用，連勝累積優勢。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon teal">🏆</div>
+        <h3>勝者留存制</h3>
+        <p>獲勝的怪獸可保留至下週繼續對戰，直到首次失敗為止。戰績越長，越顯示你的生活紀律。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon red">💀</div>
+        <h3>怪獸死亡機制</h3>
+        <p>連續 4 天未寫日記或未記錄卡路里，怪獸將直接死亡，該週無法參戰。生活紀律是最強的裝備。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon yellow">📊</div>
+        <h3>即時戰力儀表板</h3>
+        <p>手錶主畫面實時顯示當週累積戰力、HP 狀態、連勝紀錄、以及對手強度預估值。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section id="rules" class="rules-section">
+  <div class="section-inner">
+    <p class="section-tag reveal">遊戲規則</p>
+    <h2 class="reveal">七天養成，<br>禮拜日見真章。</h2>
+
+    <div class="rules-layout">
+      <!-- 週行程時間軸 -->
+      <div class="reveal">
+        <p style="font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:1.5rem;">每週行程表</p>
+        <div class="week-timeline">
+          <div class="day-row">
+            <span class="day-dot green"></span>
+            <span class="day-label">MON</span>
+            <span class="day-desc"><strong>開始養成</strong> — 怪獸誕生，開始累積</span>
+            <span class="day-badge badge-write">日記</span>
+          </div>
+          <div class="day-row">
+            <span class="day-dot green"></span>
+            <span class="day-label">TUE</span>
+            <span class="day-desc">持續記錄屬性與卡路里</span>
+            <span class="day-badge badge-cal">卡路里</span>
+          </div>
+          <div class="day-row">
+            <span class="day-dot green"></span>
+            <span class="day-label">WED</span>
+            <span class="day-desc">中段確認戰力積累進度</span>
+            <span class="day-badge badge-write">日記</span>
+          </div>
+          <div class="day-row">
+            <span class="day-dot yellow"></span>
+            <span class="day-label">THU</span>
+            <span class="day-desc">已超過3天未記錄 → <strong>屬性減弱警告</strong></span>
+            <span class="day-badge badge-warn">⚠ 警告</span>
+          </div>
+          <div class="day-row">
+            <span class="day-dot yellow"></span>
+            <span class="day-label">FRI</span>
+            <span class="day-desc">超過4天未記錄 → <strong>怪獸死亡</strong></span>
+            <span class="day-badge badge-warn">💀 死亡</span>
+          </div>
+          <div class="day-row">
+            <span class="day-dot green"></span>
+            <span class="day-label">SAT</span>
+            <span class="day-desc">最後補強機會，審視本週數值</span>
+            <span class="day-badge badge-cal">最後衝刺</span>
+          </div>
+          <div class="day-row">
+            <span class="day-dot red"></span>
+            <span class="day-label">SUN</span>
+            <span class="day-desc"><strong>決戰日 — 自動結算對戰！</strong></span>
+            <span class="day-badge badge-battle">⚔ 對戰</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 勝負規則卡 -->
+      <div class="rules-cards reveal">
+        <div class="rule-item">
+          <div class="rule-num">01</div>
+          <div>
+            <h4>勝者留存</h4>
+            <p>贏得週日對戰的怪獸可在下週繼續出戰，並攜帶本週累積的所有強化屬性。連勝紀錄將讓對手望而生畏。</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">02</div>
+          <div>
+            <h4>敗者重生</h4>
+            <p>輸掉對戰的怪獸本週成績作廢，無法再次出戰。只能從下週一開始重新孵化一隻全新怪獸。</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">03</div>
+          <div>
+            <h4>怠惰懲罰（3天）</h4>
+            <p>連續超過 <strong>3 天</strong>未寫日記或未記錄卡路里，怪獸屬性與體能狀態將大幅衰退。</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num" style="color:var(--accent)">04</div>
+          <div>
+            <h4 style="color:var(--accent)">怪獸死亡（4天）</h4>
+            <p>連續超過 <strong>4 天</strong>完全沒有任何記錄，怪獸直接死亡。該週自動棄賽，下週重來。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WARNING STRIP -->
+<div class="warning-strip">
+  <p>⚠ <strong>記住：</strong>超過 3 天不記錄 → 屬性衰退　｜　超過 4 天不記錄 → <strong>怪獸死亡，無法出戰</strong></p>
+</div>
+
+<!-- SPECS -->
+<section id="specs">
+  <div class="section-inner">
+    <p class="section-tag reveal">產品規格</p>
+    <h2 class="reveal">精準感測，<br>全天候守護。</h2>
+    <p class="desc reveal">MONSTRA Watch 搭載高精度感測器，確保每一筆生活數據都能精準轉化為怪獸戰力。</p>
+    <div class="specs-grid reveal">
+      <div class="spec-item">
+        <div class="spec-label">螢幕尺寸</div>
+        <div class="spec-val">1.9<span class="spec-unit">吋 AMOLED</span></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">電池續航</div>
+        <div class="spec-val">7<span class="spec-unit">天</span></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">防水等級</div>
+        <div class="spec-val">5<span class="spec-unit">ATM</span></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">感測器</div>
+        <div class="spec-val">8<span class="spec-unit">合一</span></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">NFC支付</div>
+        <div class="spec-val">✓<span class="spec-unit">內建</span></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">相容系統</div>
+        <div class="spec-val">iOS<span class="spec-unit">/ Android</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANY -->
+<section id="company" class="company-section">
+  <div class="section-inner">
+    <p class="section-tag reveal">關於我們</p>
+    <h2 class="reveal">睿騰有限公司</h2>
+    <div class="company-layout">
+      <div class="company-info reveal">
+        <p style="color:var(--muted); margin-bottom:2rem; font-size:0.95rem;">
+          睿騰有限公司致力於開發結合健康科技與遊戲化互動的創新穿戴裝置，讓每一個用戶的生活習慣都能轉化為有趣的挑戰與成就感。
+        </p>
+        <div class="contact-row">
+          <span class="contact-icon">📞</span>
+          <div>
+            <div class="contact-label">業務聯絡電話</div>
+            <div class="contact-val">0983-605-319</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <span class="contact-icon">🏢</span>
+          <div>
+            <div class="contact-label">公司名稱</div>
+            <div class="contact-val">睿騰有限公司</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <span class="contact-icon">⌚</span>
+          <div>
+            <div class="contact-label">產品品牌</div>
+            <div class="contact-val">MONSTRA Watch</div>
+          </div>
+        </div>
+        <p style="font-size:0.78rem; color:var(--muted); margin-top:1.5rem;">
+          如需產品詢問、批量採購或合作提案，歡迎直接致電洽談。
+        </p>
+      </div>
+
+      <div class="company-graphic reveal">
+        <div class="co-logo">睿騰</div>
+        <div class="co-tagline">Ruiteng Co., Ltd.</div>
+        <div class="co-divider"></div>
+        <div class="co-stat-row">
+          <div class="co-stat">
+            <strong>7</strong>
+            <span>天養成週期</span>
+          </div>
+          <div class="co-stat">
+            <strong>∞</strong>
+            <span>連勝挑戰</span>
+          </div>
+          <div class="co-stat">
+            <strong>1</strong>
+            <span>台手錶搞定</span>
+          </div>
+        </div>
+        <div class="co-divider"></div>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.65;">
+          讓健康生活變成一場你離不開的遊戲。<br>
+          <span style="color:var(--accent2);">你的紀律，是最強大的武器。</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 睿騰有限公司　MONSTRA Watch　保留所有權利</p>
+  <p style="margin-top:0.4rem;">業務聯絡：0983-605-319</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
